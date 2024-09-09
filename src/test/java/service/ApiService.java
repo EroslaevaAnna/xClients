@@ -23,7 +23,7 @@ public class ApiService {
 
 
         public static String getEmployee() {
-            Integer id = Integer.valueOf(ConfHelper.getProperty1("id"));
+            Integer id = Integer.valueOf(ConfHelper.getProperty("id"));
             String firstName = ConfHelper.getProperty("firstName");
             String lastName = ConfHelper.getProperty("lastName");
             String middleName = ConfHelper.getProperty("middleName");

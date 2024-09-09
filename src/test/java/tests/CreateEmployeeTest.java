@@ -22,7 +22,7 @@ public class CreateEmployeeTest {
     @Test
     public void iCanCreateNewEmployee() {
 
-        Integer idEmployee = Integer.valueOf(ApiService.getEmployee();
+        Integer idEmployee = Integer.valueOf(ApiService.getEmployee());
 
         System.out.println(token);
         System.out.println(idEmployee);
