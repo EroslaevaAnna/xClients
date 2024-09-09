@@ -21,8 +21,9 @@ public class ApiService {
                 .extract().response().jsonPath().getString("userToken");
     }
 
-    public static class CreateEmployeeRequest {
+
         public static String getEmployee() {
+            Integer id = Integer.valueOf(ConfHelper.getProperty1("id"));
             String firstName = ConfHelper.getProperty("firstName");
             String lastName = ConfHelper.getProperty("lastName");
             String middleName = ConfHelper.getProperty("middleName");
@@ -32,7 +33,7 @@ public class ApiService {
             String phone = ConfHelper.getProperty("phone");
             String birthdate = ConfHelper.getProperty("birthdate");
             Boolean isActive = Boolean.valueOf(ConfHelper.getProperty("isActive"));
-            CreateEmployeeBody employeeBody = new CreateEmployeeBody(firstName, lastName, middleName,companyId,email,url,phone,birthdate,isActive);
+            CreateEmployeeBody employeeBody = new CreateEmployeeBody(id,firstName,lastName,middleName,companyId, email, url, phone, birthdate, isActive);
 
 
             return given()
@@ -47,5 +48,4 @@ public class ApiService {
                     .extract().response().jsonPath().getString("id");
         }
 
-    }
 }

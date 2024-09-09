@@ -2,6 +2,7 @@ package model;
 
 public class CreateEmployeeBody {
 
+    private final Integer id;
     private final String firstName;
     private final String lastName;
     private final String middleName;
@@ -12,6 +13,9 @@ public class CreateEmployeeBody {
     private final String birthdate;
     private final Boolean isActive;
 
+    public Integer getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -49,7 +53,8 @@ public class CreateEmployeeBody {
         return isActive;
     }
 
-    public CreateEmployeeBody(String firstName, String lastName, String middleName, Integer companyId, String email, String url, String phone, String birthdate, Boolean isActive) {
+    public CreateEmployeeBody(Integer id, String firstName, String lastName, String middleName, Integer companyId, String email, String url, String phone, String birthdate, Boolean isActive) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;

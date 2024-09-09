@@ -10,7 +10,6 @@ import service.ConfHelper;
 public class CreateEmployeeTest {
 
     private static String token;
-    private static Integer idEmployee;
 
     @BeforeAll
     public static void setUp() {
@@ -22,10 +21,11 @@ public class CreateEmployeeTest {
 
     @Test
     public void iCanCreateNewEmployee() {
-       idEmployee = ApiService.;
+
+        Integer idEmployee = Integer.valueOf(ApiService.getEmployee();
 
         System.out.println(token);
-       // System.out.println(employeeBody);
+        System.out.println(idEmployee);
 
     }
 
