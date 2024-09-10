@@ -4,6 +4,7 @@ import model.Auth;
 import model.CreateEmployeeBody;
 
 import static io.restassured.RestAssured.given;
+import static tests.CreateEmployeeTest.token;
 
 public class ApiService {
     public static String getToken() {
@@ -40,9 +41,10 @@ public class ApiService {
 
                     .header("accept", "application/json")
                     .header("content-type","application/json")
+                    .header("x-client-token", token)
                     .body(employeeBody)
                     .when()
-                    .post("/emplooyee")
+                    .post("/employee")
                     .then()
                     .statusCode(201)
                     .extract().response().jsonPath().getString("id");

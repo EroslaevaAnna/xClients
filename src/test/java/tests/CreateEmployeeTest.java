@@ -9,13 +9,20 @@ import service.ConfHelper;
 
 public class CreateEmployeeTest {
 
-    private static String token;
+    public static String token;
 
     @BeforeAll
     public static void setUp() {
         RestAssured.baseURI = ConfHelper.getProperty("base_uri");
         // получить токен- взять логин пароль из файла проперти, взять тело запроса в виде json, отформатировать, заголовки все это оформит в отдельный класс помошник
         token = ApiService.getToken();
+    }
+
+    @Test
+    public void authToken() {
+
+        System.out.println(token);
+
     }
 
 
