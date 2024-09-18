@@ -1,15 +1,18 @@
 package service;
 
+import com.github.javafaker.Faker;
 import gata.EmployeeData;
 import model.Auth;
 import model.ChangeEmployeeInfo;
+import model.CreateCompany;
 import model.CreateEmployeeBody;
 
 import static io.restassured.RestAssured.given;
-import static tests.ContractEmployeeTest.idEmployee;
-import static tests.ContractEmployeeTest.token;
+import static org.hamcrest.Matchers.equalTo;
+import static tests.ContractEmployeeTest.*;
 
 public class ApiService {
+
 
     //получить токен
     public static String getToken() {
@@ -27,6 +30,28 @@ public class ApiService {
                 .extract().response().jsonPath().getString("userToken");
     }
 
+    //добавить новую компанию
+    public static String getCompany() {
+        final Faker faker = new Faker();
+        String name = faker.name().lastName();
+        String description = faker.lorem().sentence();
+        CreateCompany companybody = new CreateCompany(name, description);
+
+
+        return given()
+
+                .header("accept", "application/json")
+                .header("content-type", "application/json")
+                .header("x-client-token", token)
+                .body(companybody)
+                .when()
+                .post("/company")
+                .then()
+                .statusCode(201)
+                .extract().response().jsonPath().getString("id");
+
+    }
+
     //содать сотрудника
         public static String getEmployee() {
             Integer id = EmployeeData.id;
@@ -39,8 +64,8 @@ public class ApiService {
             String phone = EmployeeData.phone;
             String birthdate = EmployeeData.birthdate;
             Boolean isActive = EmployeeData.isActive;
-            CreateEmployeeBody employeeBody = new CreateEmployeeBody(id,firstName,lastName,middleName,companyId, email, url, phone, birthdate, isActive);
-
+            CreateEmployeeBody employeeBody;
+            employeeBody = new CreateEmployeeBody(id,firstName,lastName,middleName,companyId, email, url, phone, birthdate, isActive);
 
             return given()
 
@@ -53,9 +78,8 @@ public class ApiService {
                     .then()
                     .statusCode(201)
                     .extract().response().jsonPath().getString("id");
-        }
 
-        //создать сотрудника
+        }
 
      //получить инфо по сотруднику (id)
     public static void printEmployeeInfo(int id) {
@@ -69,12 +93,13 @@ public class ApiService {
 
     //изменить сотруднику данные
     public static String ChangeEmployee() {
+        final Faker faker = new Faker();
 
-        String lastName = ConfHelper.getProperty("lastNamePatch");
-        String email = ConfHelper.getProperty("emailPatch");
-        String url = ConfHelper.getProperty("urlPatch");
-        String phone = ConfHelper.getProperty("phonePatch");
-        Boolean isActive = Boolean.valueOf(ConfHelper.getProperty("isActivePatch"));
+        String lastName = faker.name().lastName();
+        String email = faker.internet().emailAddress();
+        String url = faker.internet().url();
+        String phone = faker.phoneNumber().cellPhone();
+        Boolean isActive = faker.bool().bool();
         ChangeEmployeeInfo employeeInfo = new ChangeEmployeeInfo(lastName, email, url, phone, isActive);
 
 
@@ -89,9 +114,18 @@ public class ApiService {
                 .patch("{employeeId}", idEmployee)
                 .then()
                 .statusCode(200)
+                .body("id", equalTo(idEmployee))
                 .extract().response().jsonPath().getString("id");
 
     }
 
+//    public static void deleteCompany() {
+//        given()
+//                .basePath("company/delete/" + idCompany)
+//                .header("x-client-token", token)
+//                .contentType("application/json")
+//                .when()
+//                .get();
+//    }
 
 }
