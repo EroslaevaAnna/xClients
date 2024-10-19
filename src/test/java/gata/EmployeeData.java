@@ -2,7 +2,6 @@ package gata;
 
 
 import service.ApiService;
-import tests.ContractEmployeeTest;
 
 public class EmployeeData {
     public static int id = 0;

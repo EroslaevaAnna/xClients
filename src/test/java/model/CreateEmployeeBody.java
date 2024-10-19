@@ -2,16 +2,30 @@ package model;
 
 public class CreateEmployeeBody {
 
-    private final Integer id;
-    private final String firstName;
-    private final String lastName;
-    private final String middleName;
-    private final Integer companyId;
-    private final String email;
-    private final String url;
-    private final String phone;
-    private final String birthdate;
-    private final Boolean isActive;
+    private Integer id;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private Integer companyId;
+    private String email;
+    private String url;
+    private String phone;
+    private String birthdate;
+    private Boolean isActive;
+
+    public CreateEmployeeBody(int id, String firstName, String lastName, String middleName, Integer companyId, String email, String url, String phone, String birthdate, Boolean isActive) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.companyId = companyId;
+        this.email = email;
+        this.url = url;
+        this.phone = phone;
+        this.birthdate = birthdate;
+        this.isActive = isActive;
+    }
+
 
     public Integer getId() {
         return id;
@@ -53,16 +67,5 @@ public class CreateEmployeeBody {
         return isActive;
     }
 
-    public CreateEmployeeBody(Integer id, String firstName, String lastName, String middleName, Integer companyId, String email, String url, String phone, String birthdate, Boolean isActive) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.companyId = companyId;
-        this.email = email;
-        this.url = url;
-        this.phone = phone;
-        this.birthdate = birthdate;
-        this.isActive = isActive;
-    }
+
 }
