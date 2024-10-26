@@ -9,21 +9,14 @@ import model.Auth;
 import model.ChangeEmployeeInfo;
 import model.CreateCompany;
 import model.CreateEmployeeBody;
-import tests.ContractEmployeeTest;
-
-import java.time.LocalDate;
-
+import tests.EmployeeTest;
 import static gata.EmployeeData.companyId;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
-import static tests.ContractEmployeeTest.idEmployee;
-import static tests.ContractEmployeeTest.token;
+import static tests.EmployeeTest.idEmployee;
+import static tests.EmployeeTest.token;
 
 public class ApiService {
-
-
-    private Integer idCompany;
-
     //получить токен
     public static String getToken() {
         String username = ConfHelper.getProperty("username");
@@ -31,7 +24,7 @@ public class ApiService {
         Auth auth = new Auth(username, password);
 
         return given().header("accept", "application/json")
-                .header("content-type","application/json")
+                .header("content-type", "application/json")
                 .body(auth)
                 .when()
                 .post("/auth/login")
@@ -89,7 +82,7 @@ public class ApiService {
                 .extract().response().jsonPath().getString("id");
     }
 
-     //получить инфо по сотруднику (id)
+    //получить инфо по сотруднику (id)
     public static void printEmployeeInfo(int id) {
 
         given()
@@ -100,23 +93,6 @@ public class ApiService {
                 .statusCode(200);
 
     }
-
-    public static class Employee {
-        public int id;
-        public String firstName;
-        public String lastName;
-        public LocalDate birthdate;
-        public boolean isActive;
-
-        public Employee(int id, String firstName, String lastName, LocalDate birthdate, boolean isActive) {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.birthdate = birthdate;
-            this.isActive = isActive;
-        }
-    }
-
     //изменить сотруднику данные
     public static String ChangeEmployee() {
         final Faker faker = new Faker();
@@ -155,29 +131,30 @@ public class ApiService {
                 .extract()
                 .response();
     }
+
+    // метод получения списака сотрудников по компании
     public Object getListEmployee() {
 
-    idCompany = Integer.valueOf(ApiService.getCompany());
-    idEmployee = Integer.valueOf(ApiService.getEmployee());
+        idCompany = Integer.valueOf(ApiService.getCompany());
+        idEmployee = Integer.valueOf(ApiService.getEmployee());
 
-    return given()
+        return given()
                 .header("Accept", "application/json")
                 .when()
-                .request(Method.GET, "https://x-clients-be.onrender.com/employee?company=" +companyId)
+                .request(Method.GET, "/employee?company=" + companyId)
                 .then()
                 .statusCode(200)
                 .body("", hasSize(greaterThanOrEqualTo(1)))
-            .extract().response().jsonPath().getString("id");
+                .extract().response().jsonPath().getString("id");
 
     }
 
     public static void deleteCompany(String token, Integer companyId) {
         given()
                 .basePath("company/delete/" + EmployeeData.companyId)
-                .header("x-client-token", ContractEmployeeTest.token)
+                .header("x-client-token", EmployeeTest.token)
                 .contentType("application/json")
                 .when()
                 .get();
     }
-
 }

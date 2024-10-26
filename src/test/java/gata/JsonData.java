@@ -3,7 +3,8 @@ package gata;
 import model.CreateEmployeeBody;
 
 import static io.restassured.RestAssured.given;
-import static tests.ContractEmployeeTest.token;
+import static tests.EmployeeTest.idCompany;
+import static tests.EmployeeTest.token;
 
 public class JsonData {
     //содать сотрудника для проверки возврата ожидаемого json
@@ -12,7 +13,7 @@ public class JsonData {
         String firstName = "Петр";
         String lastName = "Петров";
         String middleName = "Петрович";
-        Integer companyId = EmployeeData.companyId;
+        Integer companyId = idCompany;
         String email = "email123@mail.ru";
         String url = "url";
         String phone = "123456";

@@ -1,7 +1,4 @@
 package model;
-
-
-
 public class CreateCompany {
     private final String name;
 

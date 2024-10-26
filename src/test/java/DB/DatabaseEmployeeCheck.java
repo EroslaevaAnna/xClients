@@ -6,9 +6,9 @@ public class DatabaseEmployeeCheck {
 
     public static boolean EmployeeInDB(int id) throws SQLException {
 
-        String connectionString = "jdbc:postgresql://dpg-crgp14o8fa8c73aritj0-a.frankfurt-postgres.render.com/x_clients_db_75hr";
-        String DBUsername = "x_clients_user";
-        String DBPassword = "ypYaT7FBULZv2VxrJuOHVoe78MEElWlb";
+        String connectionString = "jdbc:postgresql://dpg-cs1a7j5ds78s73b4opi0-a.frankfurt-postgres.render.com/xclients_8hjn";
+        String DBUsername = "xclients_user";
+        String DBPassword = "Y8KdToh2vSdMnhb22u9OaIRJNyuG7xvA";
 
         try (Connection connection = DriverManager.getConnection(connectionString, DBUsername, DBPassword)) {
             String SQL = "SELECT COUNT(*) FROM employee WHERE id = ?";
