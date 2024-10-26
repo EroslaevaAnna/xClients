@@ -17,6 +17,8 @@ import static tests.EmployeeTest.idEmployee;
 import static tests.EmployeeTest.token;
 
 public class ApiService {
+    private Integer idCompany;
+
     //получить токен
     public static String getToken() {
         String username = ConfHelper.getProperty("username");
