@@ -2,6 +2,7 @@ package tests;
 
 import DB.DatabaseEmployeeCheck;
 import gata.JsonData;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -9,6 +10,7 @@ import service.ApiService;
 import service.ConfHelper;
 import java.sql.SQLException;
 import static gata.EmployeeData.companyId;
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -43,7 +45,7 @@ public class EmployeeTest {
     @Tag("Позитивный")
     @Tag("business_test")
     public void iCanCreateNewCompany() {
-
+        step("Создать новую компанию");
         idCompany = Integer.valueOf(ApiService.getCompany());
         System.out.println(idCompany);
     }
@@ -53,8 +55,11 @@ public class EmployeeTest {
     @Tag("Позитивный")
     @Tag("business_test")
     public void addNewEmployeeToCheckInDatabase() throws SQLException {
+        step("Создать новую компанию");
         idCompany = Integer.valueOf(ApiService.getCompany());
+        step("Создать нового сотрудника");
         idEmployee = Integer.valueOf(ApiService.getEmployee());
+        step("Проверить в БД Id сотрудника");
         boolean isEmployeeInDb = DatabaseEmployeeCheck.EmployeeInDB(idEmployee);
         assertTrue(isEmployeeInDb);
     }
@@ -64,6 +69,7 @@ public class EmployeeTest {
     @Tag("Позитивный")
     @Tag("business_test")
     public void iCanCreateNewEmployee() {
+        step("Создать нового сотрудника");
         idEmployee = Integer.valueOf(getEmployee());
         System.out.println(idEmployee);
     }
@@ -73,7 +79,9 @@ public class EmployeeTest {
     @Tag("Позитивный")
     @Tag("business_test")
     public void iCanGetEmployeeById() {
+        step("Создать нового сотрудника");
         idEmployee = Integer.parseInt(getEmployee());
+        step("Получить информацию по Id сотрудника");
         ApiService.printEmployeeInfo(idEmployee);
     }
 
@@ -82,6 +90,7 @@ public class EmployeeTest {
     @Tag("Негативный")
     @Tag("contract_test")
     public void invalidEmployeeInfoRetrieval() {
+        step("Ввести не существующий Id сотрудника -1");
         int invalidEmployeeId = -1;
         when()
                 .get("{employeeId}", invalidEmployeeId)
@@ -94,13 +103,16 @@ public class EmployeeTest {
     @Tag("Позитивный")
     @Tag("business_test")
     public void iCanChangeEmployeeInformation() {
+        step("Создать нового сотрудника");
         idEmployee = Integer.valueOf(getEmployee());
+        step("Получить информацию по Id сотрудника");
         Response response = ApiService.getEmployeeInfo(idEmployee);
         String lastName = response.jsonPath().getString("lastName");
         String email = response.jsonPath().getString("email");
         String phone = response.jsonPath().getString("phone");
         String url = response.jsonPath().getString("url");
 
+        step("внести изменния по Id сотрудника");
         int ChangeInfo = Integer.parseInt(String.valueOf(ApiService.ChangeEmployee()));
         ApiService.printEmployeeInfo(ChangeInfo);
         Response response1 = ApiService.getEmployeeInfo(idEmployee);
@@ -109,6 +121,7 @@ public class EmployeeTest {
         String editedPhone = response1.jsonPath().getString("phone");
         String editedUrl = response1.jsonPath().getString("url");
 
+        step("Сравнить полученный ответ с данными которые введли");
         assertNotEquals(editedLastName, lastName);
         assertNotEquals(editedEmail, email);
         assertNotEquals(editedPhone, phone);
@@ -120,7 +133,9 @@ public class EmployeeTest {
     @Tag("Позитивный")
     @Tag("contract_test")
     public void iCanGetListEmployeesByCompanyId() {
+        step("Получить список сотрудников по Id компании");
         Object response = new ApiService().getListEmployee();
+        step("Проверить тело ответа не null");
         assertThat(response.hashCode() == 200);
         assertNotNull(response);
     }
@@ -130,6 +145,7 @@ public class EmployeeTest {
     @Tag("Негативный")
     @Tag("business_test")
     public void negativeTestNoEmployees() {
+        step("Ввести невалидный id компании");
         int nonExistentCompanyId = 9999;
 
         Response response = given()
@@ -141,6 +157,7 @@ public class EmployeeTest {
                 .extract().response();
 
         String responseBody = response.body().asString();
+        step("Проверить ответ на отсутствие даннх");
         assertTrue(responseBody.equals("[]"));
     }
 
@@ -148,6 +165,7 @@ public class EmployeeTest {
     @DisplayName("Запрашиваем список сотрудников пустой компании")
     @Tag("business_test")
     public void emptyCompanyList() {
+        step("Ввести Id компании которая не имеет сотрудников");
         int companyId = Integer.valueOf(ApiService.getCompany());
 
         Response response = given()
@@ -157,7 +175,7 @@ public class EmployeeTest {
                 .then()
                 .statusCode(200)
                 .extract().response();
-
+        step("Проверить ответ на отсутствие даннх");
         String responseBody = response.body().asString();
         assertTrue(responseBody.equals("[]"));
     }
@@ -167,10 +185,12 @@ public class EmployeeTest {
     @Tag("contract_test")
     // ошибка, email возврвщает null
     public void shouldGetEmployeeDetails() {
+        step("Создать новую компанию");
         idCompany = Integer.valueOf(ApiService.getCompany());
         System.out.println(idCompany);
+        step("Создать нового сотруднка");
         int idEmployeeJson = Integer.parseInt(JsonData.getEmployee());
-
+        step("Сравнить данные в сотрудника");
         given().basePath("employee").
                 when().get("{employeeId}", idEmployeeJson).
                 then().statusCode(200).
