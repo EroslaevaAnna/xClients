@@ -1,8 +1,9 @@
 package model;
+
 public class CreateCompany {
     private final String name;
 
-   private final String description;
+    private final String description;
 
     public String getName() {
         return name;

@@ -26,7 +26,6 @@ public class CreateEmployeeBody {
         this.isActive = isActive;
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -66,6 +65,4 @@ public class CreateEmployeeBody {
     public Boolean getActive() {
         return isActive;
     }
-
-
 }

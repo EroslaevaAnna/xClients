@@ -42,7 +42,6 @@ public class ApiService {
         String description = faker.lorem().sentence();
         CreateCompany companybody = new CreateCompany(name, description);
 
-
         return given()
                 .header("x-client-token", token)
                 .header("accept", "application/json")
@@ -53,7 +52,6 @@ public class ApiService {
                 .then()
                 .statusCode(201)
                 .extract().response().jsonPath().getString("id");
-
     }
 
     //содать сотрудника
@@ -93,8 +91,8 @@ public class ApiService {
                 .get("{employeeId}", id)
                 .then()
                 .statusCode(200);
-
     }
+
     //изменить сотруднику данные
     public static String ChangeEmployee() {
         final Faker faker = new Faker();
@@ -105,7 +103,6 @@ public class ApiService {
         String phone = faker.phoneNumber().cellPhone();
         Boolean isActive = faker.bool().bool();
         ChangeEmployeeInfo employeeInfo = new ChangeEmployeeInfo(lastName, email, url, phone, isActive);
-
 
         return given()
 
